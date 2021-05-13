@@ -41,10 +41,8 @@ class HomeState extends State<Home> {
     );
   }
 
-  Future<Contact> navigateToEntryForm(
-      BuildContext context, Contact contact) async {
-    var result = await Navigator.push(context,
-        MaterialPageRoute(builder: (BuildContext context) {
+  Future<Contact> navigateToEntryForm(BuildContext context, Contact contact) async {
+    var result = await Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
       return EntryForm(contact);
     }));
     return result;
@@ -93,8 +91,7 @@ class HomeState extends State<Home> {
               },
             ),
             onTap: () async {
-              var contact =
-                  await navigateToEntryForm(context, this.contactList[index]);
+              var contact = await navigateToEntryForm(context, this.contactList[index]);
               if (contact != null) editContact(contact);
             },
           ),
