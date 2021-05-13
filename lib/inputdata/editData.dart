@@ -1,26 +1,27 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
+import 'package:onlineshoe/cek.dart';
 import 'package:onlineshoe/ui/datatampil.dart';
+import 'package:onlineshoe/ui/home.dart';
 
-class FormInput extends StatefulWidget {
-  @override
-  _FormInputState createState() => _FormInputState();
-}
-
-class _FormInputState extends State<FormInput> {
+class EditData extends StatelessWidget {
+  final Map input;
+  EditData({@required this.input});
   final _formkey = GlobalKey<FormState>();
   TextEditingController namaController = TextEditingController();
   TextEditingController warnaController = TextEditingController();
   TextEditingController ukuranController = TextEditingController();
-  TextEditingController hargaController = TextEditingController();
   TextEditingController jumlahController = TextEditingController();
+  TextEditingController hargaController = TextEditingController();
+
   //membuat method POST untuk Upload data ke API
-  Future saveUpload() async {
-    // karena ingin menambahkan data/POST maka perlu tambahan body karena di body API kita akan menambahkan data object yang ditulis harus sama dengan yang ada di API
-    final response = await http.post(Uri.parse("http://192.168.1.3:80/api/inputs"), body: {
+  Future updateKonten() async {
+    // karena ingin mengedit data maka menggunakan method PUT maka perlu tambahan body karena di body API kita akan menambahkan data object yang sudah ditulis harus sama dengan yang ada di API
+    // dan tambahan pada url yaitu upload ["id"] fungsinya untuk mengetahui id data ke berapa yang diedit pada API
+    final response = await http
+        .put(Uri.parse("http://192.168.1.3:80/api/inputs/" + input['id'].toString()), body: {
       "nama_sepatu": namaController.text,
       "warna": warnaController.text,
       "ukuran": ukuranController.text,
@@ -46,7 +47,7 @@ class _FormInputState extends State<FormInput> {
               Padding(
                 padding: EdgeInsets.only(top: 20, bottom: 20),
                 child: TextField(
-                  controller: namaController,
+                  controller: namaController..text = input['nama_sepatu'],
                   keyboardType: TextInputType.text,
                   decoration: InputDecoration(
                       labelText: "Nama Sepatu",
@@ -56,7 +57,7 @@ class _FormInputState extends State<FormInput> {
               Padding(
                 padding: EdgeInsets.only(top: 20, bottom: 20),
                 child: TextField(
-                  controller: warnaController,
+                  controller: warnaController..text = input['warna'],
                   keyboardType: TextInputType.text,
                   decoration: InputDecoration(
                       labelText: "Warna",
@@ -66,7 +67,7 @@ class _FormInputState extends State<FormInput> {
               Padding(
                 padding: EdgeInsets.only(top: 20, bottom: 20),
                 child: TextField(
-                  controller: ukuranController,
+                  controller: ukuranController..text = input['ukuran'],
                   keyboardType: TextInputType.text,
                   decoration: InputDecoration(
                       labelText: "Ukuran",
@@ -76,7 +77,7 @@ class _FormInputState extends State<FormInput> {
               Padding(
                 padding: EdgeInsets.only(top: 20, bottom: 20),
                 child: TextField(
-                  controller: hargaController,
+                  controller: hargaController..text = input['harga'],
                   keyboardType: TextInputType.text,
                   decoration: InputDecoration(
                       labelText: "Harga",
@@ -86,7 +87,7 @@ class _FormInputState extends State<FormInput> {
               Padding(
                 padding: EdgeInsets.only(top: 20, bottom: 20),
                 child: TextField(
-                  controller: jumlahController,
+                  controller: jumlahController..text = input['jumlah'],
                   keyboardType: TextInputType.text,
                   decoration: InputDecoration(
                       labelText: "Jumlah",
@@ -103,12 +104,12 @@ class _FormInputState extends State<FormInput> {
                         color: Colors.green,
                         textColor: Colors.white,
                         child: Text(
-                          'Beli',
+                          'Update',
                           textScaleFactor: 1.5,
                         ),
                         onPressed: () {
                           if (_formkey.currentState.validate()) {
-                            saveUpload().then((value) {
+                            updateKonten().then((value) {
                               Navigator.push(
                                   context, MaterialPageRoute(builder: (context) => DataTampil()));
                             });

@@ -2,20 +2,26 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:onlineshoe/inputdata/editData.dart';
 
 class DataTampil extends StatefulWidget {
-  const DataTampil({
-    Key key,
-  }) : super(key: key);
   @override
   _DataTampilState createState() => _DataTampilState();
 }
 
 class _DataTampilState extends State<DataTampil> {
-  final String url = "http://192.168.1.24:80/api/inputs";
-  Future getinput() async {
+  //inget ganti yang isi 192.168.1.3 ini sesuaikan sama IP punya mu yang di IPConfig
+  final String url = "http://192.168.1.3/api/inputs";
+  Future getInput() async {
     var response = await http.get(Uri.parse(url));
     print(jsonDecode(response.body));
+    return jsonDecode(response.body);
+  }
+
+  Future deleteData(String dataId) async {
+    final String url = "http://192.168.1.3/api/uploads/" + dataId;
+    var response = await http.delete(Uri.parse(url));
+
     return jsonDecode(response.body);
   }
 
@@ -23,44 +29,79 @@ class _DataTampilState extends State<DataTampil> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Data pelanggang"),
+        title: Text("Data Pelanggan"),
       ),
       body: Container(
         width: double.maxFinite,
-        margin: EdgeInsets.all(5),
-        child: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              FutureBuilder(
-                  future: getinput(),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      return ListView.builder(
-                          itemCount: snapshot.data['data'].length,
-                          shrinkWrap: true,
-                          physics: ClampingScrollPhysics(),
-                          itemBuilder: (context, index) {
-                            Container(
-                                height: 150,
-                                child: Card(
+        child: Column(
+          children: <Widget>[
+            SizedBox(
+              height: 10,
+            ),
+            FutureBuilder(
+                future: getInput(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return ListView.builder(
+                        itemCount: snapshot.data['data'].length,
+                        shrinkWrap: true,
+                        physics: ClampingScrollPhysics(),
+                        itemBuilder: (context, index) {
+                          return Container(
+                              padding: EdgeInsets.only(top: 5),
+                              child: Card(
                                   elevation: 8,
-                                  child: Column(
-                                    children: <Widget>[
-                                      Row(
+                                  child: ListTile(
+                                    leading: IconButton(
+                                      icon: Icon(Icons.edit),
+                                      onPressed: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    EditData(input: snapshot.data['data'][index])));
+                                      },
+                                    ),
+                                    title: Container(
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
                                         children: <Widget>[
-                                          Text("Nama Sepatu"),
-                                          Text(snapshot.data['data'][index]
-                                              ['namaSepatu'])
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text("Nama Sepatu : " +
+                                                  snapshot.data['data'][index]['nama_sepatu']),
+                                              // snapshot.data ini untuk ngambil data di database sedangkang
+                                              //[index]['nama_sepatu'] artinya kita ngambil data dari kolom nama_sepatu yang ada di database  dan mau di tampilin datanya di aplikasi kita
+                                              //disini tambahin lagi warna, ukuran terus jumlah , harga
+                                              //sisanya diemin dah
+                                              IconButton(
+                                                  icon: Icon(Icons.delete),
+                                                  onPressed: () {
+                                                    // yang ini diemin ya ini untuk hapus datanya
+                                                    // jadi index yang di ambil itu dari ID datanya misalkan ID 1 berarti data ke 1 yang di hapus
+                                                    deleteData(snapshot.data['data'][index]['id']
+                                                            .toString())
+                                                        .then((value) {
+                                                      setState(() {});
+                                                      ScaffoldMessenger.of(context).showSnackBar(
+                                                          SnackBar(
+                                                              content: Text("Data sudah dihapus")));
+                                                    });
+                                                  })
+                                            ],
+                                          ),
+                                          Text("Warna :" + snapshot.data['data'][index]['warna']),
                                         ],
-                                      )
-                                    ],
-                                  ),
-                                ));
-                          });
-                    }
-                  })
-            ],
-          ),
+                                      ),
+                                    ),
+                                  )));
+                        });
+                  } else {
+                    return Text("Error");
+                  }
+                }),
+          ],
         ),
       ),
     );
