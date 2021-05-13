@@ -88,8 +88,7 @@ class _HomePageState extends State<HomePage> {
               //body
               new ListTile(
                   title: new Text('Akun'),
-                  trailing: new Icon(Icons.person_outline_rounded,
-                      color: Colors.purple),
+                  trailing: new Icon(Icons.person_outline_rounded, color: Colors.purple),
                   onTap: () => Navigator.of(context).push(MaterialPageRoute(
                         builder: (BuildContext) => Akun(),
                       ))),
@@ -107,8 +106,7 @@ class _HomePageState extends State<HomePage> {
                       ))),
               new ListTile(
                   title: new Text('Form Data'),
-                  trailing:
-                      new Icon(Icons.date_range_rounded, color: Colors.orange),
+                  trailing: new Icon(Icons.date_range_rounded, color: Colors.orange),
                   onTap: () => Navigator.of(context).push(MaterialPageRoute(
                         builder: (BuildContext) => Home(),
                       ))),

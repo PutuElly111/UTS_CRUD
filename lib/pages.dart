@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:onlineshoe/inputdata/formInput.dart';
 
 class DetailProduk extends StatefulWidget {
   final detail_produk_name;
@@ -50,8 +51,7 @@ class _DetailProdukState extends State<DetailProduk> {
                 color: Colors.grey[200],
                 child: ListTile(
                   leading: new Text(widget.detail_produk_name,
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 16.0)),
+                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0)),
                   title: new Row(
                     children: <Widget>[
                       Expanded(
@@ -146,7 +146,9 @@ class _DetailProdukState extends State<DetailProduk> {
               // untuk tombol beli
               Expanded(
                 child: MaterialButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => FormInput()));
+                    },
                     color: Colors.red,
                     textColor: Colors.white,
                     elevation: 0.2,
@@ -179,8 +181,7 @@ class _DetailProdukState extends State<DetailProduk> {
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.fromLTRB(12.0, 5.0, 5.0, 5.0),
-                child: new Text("Nama Produk",
-                    style: TextStyle(color: Colors.grey)),
+                child: new Text("Nama Produk", style: TextStyle(color: Colors.grey)),
               ),
               Padding(
                 padding: EdgeInsets.all(5.0),
@@ -192,8 +193,7 @@ class _DetailProdukState extends State<DetailProduk> {
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.fromLTRB(12.0, 5.0, 5.0, 5.0),
-                child: new Text("Rating Pembeli",
-                    style: TextStyle(color: Colors.grey)),
+                child: new Text("Rating Pembeli", style: TextStyle(color: Colors.grey)),
               ),
               Padding(
                 padding: EdgeInsets.all(5.0),
