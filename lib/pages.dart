@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:onlineshoe/inputdata/formInput.dart';
 
 class DetailProduk extends StatefulWidget {
   final detail_produk_name;
@@ -74,7 +75,7 @@ class _DetailProdukState extends State<DetailProduk> {
           Row(
             children: <Widget>[
               // untuk ukurannya
-              Expanded(
+              /* Expanded(
                 child: MaterialButton(
                   onPressed: () {
                     showDialog(
@@ -104,9 +105,9 @@ class _DetailProdukState extends State<DetailProduk> {
                     ],
                   ),
                 ),
-              ),
+              ),*/
               // untuk warnanya
-              Expanded(
+              /*Expanded(
                 child: MaterialButton(
                   onPressed: () {
                     showDialog(
@@ -136,7 +137,7 @@ class _DetailProdukState extends State<DetailProduk> {
                     ],
                   ),
                 ),
-              ),
+              ),*/
             ],
           ),
 
@@ -146,7 +147,10 @@ class _DetailProdukState extends State<DetailProduk> {
               // untuk tombol beli
               Expanded(
                 child: MaterialButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => FormInput()));
+                    },
                     color: Colors.red,
                     textColor: Colors.white,
                     elevation: 0.2,

@@ -108,8 +108,8 @@ class EntryFormState extends State<EntryForm> {
                         onPressed: () {
                           if (contact == null) {
                             // tambah data
-                            contact = Contact(nameController.text,
-                                jumlahController.text, hargaController.text);
+                            contact = Contact(
+                                nameController.text, jumlahController.text, hargaController.text);
                           } else {
                             // ubah data
                             contact.name = nameController.text;

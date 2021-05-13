@@ -5,7 +5,7 @@ import 'package:onlineshoe/akun.dart';
 import 'package:onlineshoe/favorite.dart';
 import 'package:onlineshoe/produk.dart';
 import 'package:onlineshoe/setting.dart';
-import 'package:onlineshoe/ui/home.dart';
+import 'package:onlineshoe/ui/datatampil.dart';
 import './horizonlist.dart';
 import './produk.dart';
 import 'package:onlineshoe/ui/entryform.dart';
@@ -109,9 +109,10 @@ class _HomePageState extends State<HomePage> {
                   title: new Text('Form Data'),
                   trailing:
                       new Icon(Icons.date_range_rounded, color: Colors.orange),
-                  onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                        builder: (BuildContext) => Home(),
-                      ))),
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => DataTampil()));
+                  }),
               new ListTile(
                   title: new Text('About'),
                   trailing: new Icon(Icons.help, color: Colors.blue),
