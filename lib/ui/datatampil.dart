@@ -19,7 +19,7 @@ class _DataTampilState extends State<DataTampil> {
   }
 
   Future deleteData(String dataId) async {
-    final String url = "http://192.168.1.3/api/uploads/" + dataId;
+    final String url = "http://192.168.1.3/api/inputs/" + dataId;
     var response = await http.delete(Uri.parse(url));
 
     return jsonDecode(response.body);
@@ -30,6 +30,7 @@ class _DataTampilState extends State<DataTampil> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Data Pelanggan"),
+        backgroundColor: Colors.red,
       ),
       body: Container(
         width: double.maxFinite,
@@ -71,10 +72,6 @@ class _DataTampilState extends State<DataTampil> {
                                             children: [
                                               Text("Nama Sepatu : " +
                                                   snapshot.data['data'][index]['nama_sepatu']),
-                                              // snapshot.data ini untuk ngambil data di database sedangkang
-                                              //[index]['nama_sepatu'] artinya kita ngambil data dari kolom nama_sepatu yang ada di database  dan mau di tampilin datanya di aplikasi kita
-                                              //disini tambahin lagi warna, ukuran terus jumlah , harga
-                                              //sisanya diemin dah
                                               IconButton(
                                                   icon: Icon(Icons.delete),
                                                   onPressed: () {
@@ -92,6 +89,10 @@ class _DataTampilState extends State<DataTampil> {
                                             ],
                                           ),
                                           Text("Warna :" + snapshot.data['data'][index]['warna']),
+                                          Text("Ukuran :" + snapshot.data['data'][index]['ukuran']),
+                                          Text("Harga : Rp. " +
+                                              snapshot.data['data'][index]['harga']),
+                                          Text("Jumlah :" + snapshot.data['data'][index]['jumlah']),
                                         ],
                                       ),
                                     ),
